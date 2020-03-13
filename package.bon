@@ -1,0 +1,13 @@
+{
+    "id":"io.hanyeol.CleanYouTube",
+    "language":"en",
+    "version":"1.0",
+    "title":"YouTube without ads",
+    "description":"",
+    "localization":{
+        "ko":{
+            "title":"광고없는 유튜브",
+            "description":""
+        }
+    }
+}
