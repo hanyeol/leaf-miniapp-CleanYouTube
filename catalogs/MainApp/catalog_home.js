@@ -6,6 +6,17 @@ function on_loaded() {
     } else {
         view.object("web").action("show")
     }
+
+    if (document.value("youtube.playing")) {
+        if ($env["ORIENTATION"] === "landscape") {
+            view.object("web").action("simulate-gesture", { "delay":"0.01" })
+            timeout(0.01, function() {
+                view.object("web").action("evaluate", { "script":"request_fullscreen.js" })
+            })
+        } else {
+            view.object("web").action("evaluate", { "script":"exit_fullscreen.js" })
+        }
+   }
 }
 
 function on_web_start(data) {
@@ -56,8 +67,10 @@ function on_back() {
             "script":"window.history.go(-" + __history_to_back + ")"
         })
 
-        __history_to_back = 0;
+        __history_to_back = 0
+
         document.value("youtube.history_to_back", __history_to_back)
+        document.value("youtube.playing", false)
     } else {
         controller.action("back")
     }
@@ -68,7 +81,9 @@ function __handle_url_to_start(url) {
         __disable_pull_to_refresh()
 
         __history_to_back += 1
+ 
         document.value("youtube.history_to_back", __history_to_back)
+        document.value("youtube.playing", true)
 
         return;
     } 

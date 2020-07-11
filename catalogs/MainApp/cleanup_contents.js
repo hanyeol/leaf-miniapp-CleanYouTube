@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .masthead-ad-control,
         .video-ads,
         .ytp-ad-progress-list,
+        .companion-ad-container,
         #ad_creative_3,
         #footer-ads,
         #masthead-ad,

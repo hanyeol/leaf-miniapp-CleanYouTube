@@ -1,7 +1,7 @@
-=begin catalog: script-when-loaded=on_loaded, script-when-back=on_back
+=begin catalog: script-when-loaded=on_loaded
 
 =object web: id=web, reuse-id=web, url="https://youtube.com", uses-browser-user-agent=yes, \
-            content-script@start=cleanup_contents.js, \
+            content-script@start=cleanup_contents.js, script-when-back=on_back, \
             script-when-start=on_web_start, script-when-failed=on_web_failed, \
             disallowed-url-patterns="(doubleclick\\.net)|(adservice\\.google\\.)|(youtube\\.com/api/stats/ads)|(&ad_type=)|(&adurl=)|(-pagead-id.)|(doubleclick\\.com)|(/ad_status.)|(/api/ads/)|(/googleads)|(/pagead/gen_)|(/pagead/lvz?)|(/pubads.)|(/pubads_)|(/securepubads)|(=adunit&)|(googlesyndication\\.com)|(innovid\\.com)|(tubemogul\\.com)|(youtube\\.com/pagead/)|(google\\.com/pagead/)|(flashtalking\\.com)|(googleadservices\\.com)|(s0\\.2mdn\\.net/ads)|(www\\.youtube\\.com/ptracking)|(www\\.youtube\\.com/pagead)|(www\\.youtube\\.com/get_midroll_)|(www\\.youtube\\.com/api/stats)", \
             reloads-when-pull=yes, hidden=yes, style=web
