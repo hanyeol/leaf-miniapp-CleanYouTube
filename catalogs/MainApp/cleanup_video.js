@@ -1,10 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
-    var cleanup_contents_style = document.createElement('style');
+    var cleanup_video_style = document.createElement('style');
 
-    cleanup_contents_style.innerHTML = `
-        .player-container,
-        .player-size,
-        .slim-video-metadata-header,
+    cleanup_video_style.innerHTML = `
+        .mobile-topbar-header,
+        .ytp-unmute,
         .ad-container,
         .ad-div,
         .masthead-ad-control,
@@ -22,5 +21,5 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     `;
 
-    document.head.appendChild(cleanup_contents_style);
+    document.head.appendChild(cleanup_video_style);
 })

@@ -1,0 +1,15 @@
+=begin catalog: script-when-loaded=on_loaded
+
+=object blank: id=blank.transient, style=blank_transient
+
+=object web: id=web.video, reuse-id=web.video, url="https://m.youtube.com/watch?v=${video-id}", \
+            javascript-bridge="__$_bridge", uses-browser-user-agent=yes, content-script@start=cleanup_video.js, \
+            disallowed-url-patterns="(doubleclick\\.net)|(adservice\\.google\\.)|(youtube\\.com/api/stats/ads)|(&ad_type=)|(&adurl=)|(-pagead-id.)|(doubleclick\\.com)|(/ad_status.)|(/api/ads/)|(/googleads)|(/pagead/gen_)|(/pagead/lvz?)|(/pubads.)|(/pubads_)|(/securepubads)|(=adunit&)|(googlesyndication\\.com)|(innovid\\.com)|(tubemogul\\.com)|(youtube\\.com/pagead/)|(google\\.com/pagead/)|(flashtalking\\.com)|(googleadservices\\.com)|(s0\\.2mdn\\.net/ads)|(www\\.youtube\\.com/ptracking)|(www\\.youtube\\.com/pagead)|(www\\.youtube\\.com/get_midroll_)|(www\\.youtube\\.com/api/stats)", \
+            script-when-start=on_web_start, script-when-loaded=on_web_loaded, \
+            script-when-failed=on_web_failed, script-when-back=on_web_back, \
+            script-when-begin-fullscreen=on_begin_fullscreen, script-when-end-fullscreen=on_end_fullscreen, \
+            reloads-when-pull=no, handles-back-key=yes, hidden=yes, style=web
+
+=object blank: style=blank_top
+
+=end catalog

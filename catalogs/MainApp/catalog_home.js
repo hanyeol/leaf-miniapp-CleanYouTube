@@ -1,22 +1,9 @@
-var __history_to_back = document.value("youtube.history_to_back") || 0
-
 function on_loaded() {
     if (document.value("web.failed")) {
         view.object("section.error").action("show")
     } else {
         view.object("web").action("show")
     }
-
-    if (document.value("youtube.playing")) {
-        if ($env["ORIENTATION"] === "landscape") {
-            view.object("web").action("simulate-gesture", { "delay":"0.01" })
-            timeout(0.01, function() {
-                view.object("web").action("evaluate", { "script":"request_fullscreen.js" })
-            })
-        } else {
-            view.object("web").action("evaluate", { "script":"exit_fullscreen.js" })
-        }
-   }
 }
 
 function on_web_start(data) {
@@ -61,48 +48,28 @@ function reload() {
     document.value("web.failed", false)
 }
 
-function on_back() {
-    if (__history_to_back > 0) {
-        view.object("web").action("evaluate", {
-            "script":"window.history.go(-" + __history_to_back + ")"
-        })
-
-        __history_to_back = 0
-
-        document.value("youtube.history_to_back", __history_to_back)
-        document.value("youtube.playing", false)
-    } else {
-        controller.action("back")
-    }
+function load_url(data) {
+    view.object("web").property({ 
+        "url":data["url"] 
+    })
 }
 
 function __handle_url_to_start(url) {
     if (url.search(/m.youtube.com\/watch\?/) != -1) {
-        __disable_pull_to_refresh()
+        view.object("web").action("hide")
+        view.object("web").action("evaluate", {
+            "script":"window.history.back()"
+        })
 
-        __history_to_back += 1
- 
-        document.value("youtube.history_to_back", __history_to_back)
-        document.value("youtube.playing", true)
-
-        return;
-    } 
+        controller.catalog().submit("subcatalog", "", "video", {
+            "video-id":url.match(/v=([^&]+)/)[1]
+        })
+        controller.action("subview", { "subview":"V_VIDEO", "target":"popup" })
     
-    if (url.search(/m.youtube.com\/(feed|results|channel|\?)/) != -1) {
-        __enable_pull_to_refresh()
+        timeout(0.2, function() {
+            view.object("web").action("show")
+        })
 
         return;
     }
-}
-
-function __enable_pull_to_refresh() {
-    view.object("web").property({
-        "reloads-when-pull":"yes"
-    })
-}
-
-function __disable_pull_to_refresh() {
-    view.object("web").property({
-        "reloads-when-pull":"no"
-    })
 }
