@@ -10,12 +10,6 @@ function on_loaded() {
     } else {
         document.value("video-id", $data["video-id"])
     }
-
-    if (document.value("fullscreen")) {
-        if (Date.now() - document.value("fullscreen-at") > 1000) {
-            view.object("web.video").action("evaluate", { "script":"exit_fullscreen.js" })
-        }
-    }
 }
 
 function on_web_start(data) {
@@ -68,7 +62,6 @@ function on_web_back() {
 
 function on_begin_fullscreen() {
     document.value("fullscreen", true)
-    document.value("fullscreen-at", new Date())
 }
 
 function on_end_fullscreen() {
