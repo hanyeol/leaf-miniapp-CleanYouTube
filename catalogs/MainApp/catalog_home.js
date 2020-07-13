@@ -56,6 +56,10 @@ function load_url(data) {
 
 function __handle_url_to_start(url) {
     if (url.search(/m.youtube.com\/watch\?/) != -1) {
+        controller.action("subview-back")
+        document.value("video-id", null)
+        document.value("video.loaded", false)
+        
         view.object("web").action("hide")
         view.object("web").action("evaluate", {
             "script":"window.history.back()"

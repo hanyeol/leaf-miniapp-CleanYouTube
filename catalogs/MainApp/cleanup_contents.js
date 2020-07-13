@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var cleanup_contents_style = document.createElement('style');
 
     cleanup_contents_style.innerHTML = `
+        ytm-promoted-sparkles-text-search-renderer.item,
         .player-container,
         .player-size,
         .slim-video-metadata-header,

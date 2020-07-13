@@ -1,10 +1,16 @@
 const webjs = require("webjs-helper").initialize("web.video", "__$_bridge")
 
-var __web_loaded = false
-
 function on_loaded() {
+    if (document.value("video.loaded")) {
+        webjs.import("youtube_video.js")
+    }
+
     if ($data["video-id"] === document.value("video-id")) {
-        view.object("web.video").action("show")
+        view.object("web.video").property({ "alpha":"0" }) 
+        timeout(0.2, function() {
+            view.object("web.video").property({ "alpha":"1" })
+        })
+        view.object("web.video").action("show")            
 
         __on_video_ready()
     } else {
@@ -12,40 +18,31 @@ function on_loaded() {
     }
 }
 
-function on_web_start(data) {
-    if (data["url"].startsWith("https://m.youtube.com/watch")) {
-        if (__web_loaded) {
-            __on_video_ready()
-        }
-
-        return
-    }
-
-    if (data["url"].startsWith("https://m.youtube.com/")) {
-        if (data["url"].match(/\/(channel|results)/)) {
-            controller.action("script", {
-                "script":"load_url",
-                "subview":"V_HOME",
-                "routes-to-topmost":"no",
-                "url":data["url"].replace(/[&?]pbj=[0-9]/, "")
-            })
-            controller.action("subview-back")    
-        }
-
-        return
-    }
+function on_touched() {
+    if ($env["MINIMIZED"] == "yes") {
+        controller.action("maximize")
+    }    
 }
 
 function on_web_loaded(data) {
     if (data["url"].startsWith("https://m.youtube.com/watch")) {
         webjs.import("youtube_video.js")
         webjs.call("unmute")
-        
+
         view.object("web.video").action("show")
+        document.value("video.loaded", true)
 
         __on_video_ready()
 
-        __web_loaded = true
+        return
+    }
+}
+
+function on_web_start(data) {
+    if (data["url"].startsWith("https://m.youtube.com/watch")) {
+        if (document.value("video.loaded")) {
+            __on_video_ready()
+        }
 
         return
     }
@@ -53,11 +50,20 @@ function on_web_loaded(data) {
 
 function on_web_back() {
     if (!document.value("fullscreen")) {
-        document.value("video-id", null)
-        controller.action("subview-back")    
+        controller.action("minimize")    
     } else {
         controller.action("back")
     }
+}
+
+function on_request_url(data) {
+    controller.action("script", {
+        "script":"load_url",
+        "subview":"V_HOME",
+        "routes-to-topmost":"no",
+        "url":data["url"].replace(/[&?]pbj=[0-9]/, "")
+    })
+    controller.action("minimize")    
 }
 
 function on_begin_fullscreen() {
@@ -68,6 +74,10 @@ function on_end_fullscreen() {
     document.value("fullscreen", false)
 }
 
+function close() {
+    controller.action("subview-back")
+}
+
 function __on_video_ready() {
     webjs.call("getVideoSize").then(function(result) {
         if (parseInt(result["width"]) > parseInt(result["height"])) {
@@ -75,5 +85,15 @@ function __on_video_ready() {
         } else {
             view.object("web.video").property({ "fullscreen-orientations":"portrait" })
         }
+    })
+
+    webjs.call("getVideoTitle").then(function(result) {
+        controller.catalog().submit("subcatalog", "", "video", {
+            "video-id":$data["video-id"],
+            "title":result["title"]
+        })
+        view.object("label.title").property({
+            "text":result["title"]
+        })
     })
 }

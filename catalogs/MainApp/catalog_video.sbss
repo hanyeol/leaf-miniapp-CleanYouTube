@@ -1,15 +1,39 @@
 import themes.sbss
 
-#blank_transient: width=1pw, position=abs, gravity=top, color=$COLOR_BLACK
-#web: width=1pw, height=1ph+(50dp-1sbh), position=abs, gravity=top, y=-(50dp-1sbh), \
-        autoresizing=flexible-size, edge-swipe-enabled=yes
+#web: autoresizing=flexible-size
 
-#blank_top: width=1pw, height=1sbh, position=abs, gravity=top, color=$COLOR_BLACK
+/catalog: fits-to-page=yes, margin-bottom-when-minimize=1eb+50dp
 
-/catalog: fits-to-page=yes, page-background-color=$THEME_COLOR_BACKGROUND
-
-if $ORIENTATION == "portrait"
-    #blank_transient: height=1sbh+1pw*9/16, 
+if $MINIMIZED != "yes"
+    #web: width=1pw, height=1ph+(50dp-1sbh), offset-y=-(50dp-1sbh)
+    #blank_transient: color=$COLOR_BLACK, width=1pw, position=abs, gravity=top
+    #blank_top: color=$COLOR_BLACK, width=1pw, height=1sbh, position=abs, gravity=top
+    #label_title: display=none
+    #btn_close: display=none
+    if $ORIENTATION == "portrait"
+        #blank_transient: height=1sbh+1pw*9/16, 
+    else
+        #blank_transient: height=1sbh+0.78pw*9/16, 
+    end
+    /catalog: page-background-color=$THEME_COLOR_BACKGROUND
+    /catalog/content: text-align=center
+    /catalog/content/minimized: display=none
 else
-    #blank_transient: height=1sbh+0.78pw*9/16, 
+    #web: width=(1ph-4dp)*16/9, height=(1ph-4dp)+50dp-2dp, offset-x=2dp, offset-y=-(50dp-3dp), \
+                ignore-touches=yes
+    #blank_transient: display=none
+    #blank_top: color=$COLOR_WHITE, width=1pw, height=2dp, position=abs, gravity=top
+    #label_title: width=1pw-((1ph-4dp)*16/9+24dp+44dp), height=1ph, margin-right=4dp, \
+                font-family=$SANS_KR_REGULAR, font-size=1.0, text-color=$THEME_COLOR_TEXT, \
+                number-of-lines=2, line-break-mode=tail-truncation
+    #btn_close: width=44dp, height=44dp, margin-right=8dp, vertical-align=middle
+    /catalog: page-background-color=$COLOR_TRANSPARENT
+    /catalog/content: display=block, position=abs, gravity=top, text-align=left, \
+                background-color=$COLOR_WHITE, border-width="0 0 1dp 0", border-color=$COLOR_LIGHT_GRAY
+    /catalog/content/minimized: margin-top=-((1ph-4dp)+50dp-2dp), text-align=right
+    if $ORIENTATION == "portrait"
+        /catalog/content: width=1pw, height=1ph
+    else
+        /catalog/content: width=0.5pw, height=1ph
+    end
 end
