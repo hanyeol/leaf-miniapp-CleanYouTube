@@ -2,7 +2,13 @@ import themes.sbss
 
 #web: autoresizing=flexible-size
 
-/catalog: fits-to-page=yes, margin-bottom-when-minimize=1eb+50dp
+/catalog: fits-to-page=yes, minimize-margin@portrait="0 0 1eb+48dp 0"
+
+if $ORIENTATION == "portrait"
+    /catalog: minimize-margin@landscape="0 (1ph-1pw)/2 48dp (1ph-1pw)/2"
+else
+    /catalog: minimize-margin@landscape="0 (1pw-1ph)/2 48dp (1pw-1ph)/2"
+end
 
 if $MINIMIZED != "yes"
     #web: width=1pw, height=1ph+(50dp-1sbh), offset-y=-(50dp-1sbh)
@@ -10,14 +16,14 @@ if $MINIMIZED != "yes"
     #blank_top: color=$COLOR_BLACK, width=1pw, height=1sbh, position=abs, gravity=top
     #label_title: display=none
     #btn_close: display=none
-    if $ORIENTATION == "portrait"
-        #blank_transient: height=1sbh+1pw*9/16, 
-    else
-        #blank_transient: height=1sbh+0.78pw*9/16, 
-    end
     /catalog: page-background-color=$THEME_COLOR_BACKGROUND
     /catalog/content: text-align=center
     /catalog/content/minimized: display=none
+    if $ORIENTATION == "portrait"
+        #blank_transient: height=1sbh+1pw*9/16
+    else
+        #blank_transient: height=1sbh+0.78pw*9/16
+    end
 else
     #web: width=(1ph-4dp)*16/9, height=(1ph-4dp)+50dp-2dp, offset-x=2dp, offset-y=-(50dp-3dp), \
                 ignore-touches=yes
