@@ -1,9 +1,9 @@
 =begin catalog: script-when-loaded=on_loaded
 
 =object web: id=web, reuse-id=web, url="https://youtube.com", \
-            uses-browser-user-agent=yes, content-script@start=cleanup_contents.js, \
+            javascript-bridge="__$_bridge", uses-browser-user-agent=yes, content-script@start=cleanup_contents.js, \
             blocking-url-patterns="(doubleclick\\.net)|(adservice\\.google\\.)|(youtube\\.com/api/stats/ads)|(&ad_type=)|(&adurl=)|(-pagead-id.)|(doubleclick\\.com)|(/ad_status.)|(/api/ads/)|(/googleads)|(/pagead/gen_)|(/pagead/lvz?)|(/pubads.)|(/pubads_)|(/securepubads)|(=adunit&)|(googlesyndication\\.com)|(innovid\\.com)|(tubemogul\\.com)|(youtube\\.com/pagead/)|(google\\.com/pagead/)|(flashtalking\\.com)|(googleadservices\\.com)|(s0\\.2mdn\\.net/ads)|(www\\.youtube\\.com/ptracking)|(www\\.youtube\\.com/pagead)|(www\\.youtube\\.com/get_midroll_)|(www\\.youtube\\.com/api/stats)", \
-            script-when-start=on_web_start, script-when-failed=on_web_failed, \
+            script-when-loaded=on_web_loaded, script-when-start=on_web_start, script-when-failed=on_web_failed, \
             reloads-when-pull=yes, handles-back-key=yes, hidden=yes, style=web
 
 =object blank: style=blank_top

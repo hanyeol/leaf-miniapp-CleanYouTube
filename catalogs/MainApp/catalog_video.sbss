@@ -3,6 +3,8 @@ import themes.sbss
 #blank_video: color=$COLOR_BLACK
 #web: autoresizing=flexible-size
 
+#effect_loading: width=36dp, height=36dp, position=abs, gravity=top
+
 /catalog: page-background-color=$THEME_COLOR_BACKGROUND, fits-to-page=yes, \
         minimize-margin@portrait="0 0 1eb+48dp 0"
 
@@ -21,8 +23,10 @@ if $MINIMIZED != "yes"
     /catalog/minimized: display=none
     if $ORIENTATION == "portrait"
         #blank_video: height=1sbh+1pw*9/16
+        #effect_loading: y=1sbh+1pw*9/16+96dp
     else
         #blank_video: height=1sbh+0.78pw*9/16
+        #effect_loading: y=1sbh+0.78pw*9/16+20dp
     end
 else
     #web: width=(1ph-4dp)*16/9, height=(1ph-4dp)+50dp-2dp, position=abs, gravity=top-left, x=2dp, y=-(50dp-4dp), \
@@ -33,5 +37,6 @@ else
                 font-family=$SANS_KR_REGULAR, font-size=1.0, text-color=$THEME_COLOR_TEXT, \
                 number-of-lines=2, line-break-mode=tail-truncation
     #btn_close: width=44dp, height=44dp, margin-right=8dp, vertical-align=middle
+    #effect_loading: display=none
     /catalog/minimized: text-align=right
 end

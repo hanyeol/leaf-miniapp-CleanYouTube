@@ -8,6 +8,8 @@
             script-when-begin-fullscreen=on_begin_fullscreen, script-when-end-fullscreen=on_end_fullscreen, \
             reloads-when-pull=no, handles-back-key=yes, hidden=yes, style=web
 
+=object effect: id=effect.loading, filename="loading.json", hidden=yes, style=effect_loading
+
 =begin minimized
 =(object label: id=label.title, text="${title}", style=label_title)=\
 =(object button: script=close, image=btn_close.png, style=btn_close)=

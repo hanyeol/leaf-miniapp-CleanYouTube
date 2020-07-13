@@ -15,6 +15,7 @@ function on_loaded() {
         __on_video_ready()
     } else {
         document.value("video-id", $data["video-id"])
+        view.object("effect.loading").action("show")
     }
 }
 
@@ -30,6 +31,8 @@ function on_web_loaded(data) {
         webjs.call("unmute")
 
         view.object("web.video").action("show")
+        view.object("effect.loading").action("hide")
+
         document.value("video.loaded", true)
 
         __on_video_ready()
@@ -58,7 +61,7 @@ function on_web_back() {
 
 function on_request_url(data) {
     controller.action("script", {
-        "script":"load_url",
+        "script":"on_request_url",
         "subview":"V_HOME",
         "routes-to-topmost":"no",
         "url":data["url"].replace(/[&?]pbj=[0-9]/, "")
@@ -90,10 +93,8 @@ function __on_video_ready() {
     webjs.call("getVideoTitle").then(function(result) {
         controller.catalog().submit("subcatalog", "", "video", {
             "video-id":$data["video-id"],
-            "title":result["title"]
+            "title":result["title"].replace(/"/g, "\\\"")
         })
-        view.object("label.title").property({
-            "text":result["title"]
-        })
+        view.object("label.title").property({ "text":result["title"] })
     })
 }
